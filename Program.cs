@@ -96,7 +96,11 @@ while (true)
 
 projects = projects.Distinct().ToList();
 var sortedProjects = projects.OrderByDescending(p => p.StarCount).ToList();
-var json = JsonSerializer.Serialize(sortedProjects);
+var options = new JsonSerializerOptions
+{
+    WriteIndented = true
+};
+var json = JsonSerializer.Serialize(sortedProjects, options);
 var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 var filePath = Path.Combine(Directory.GetCurrentDirectory(), $"projects_{timestamp}.json");
 File.WriteAllText(filePath, json);
